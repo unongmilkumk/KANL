@@ -9,6 +9,7 @@ fun main() {
     val mutationRate = 0.3
     val geneticAlgorithm = GeneticAlgorithm(List(300) { NeuralNetwork(1, 2, 1) },
         {a, _ ->
+            a.memoList[0] = -800 * abs(a.forward(doubleArrayOf(1.0), false)[0] - 0.5) + 100
             -800 * abs(a.forward(doubleArrayOf(1.0), false)[0] - 0.5) + 100
         },
         {a, b -> a.sortedByDescending { b[a.indexOf(it)] }.take(a.size / 2)},
@@ -49,9 +50,9 @@ fun main() {
     var bestAI = geneticAlgorithm.p[0]
     var q: Pair<DoubleArray, NeuralNetwork>
     repeat(2000) { generation ->
-        q = geneticAlgorithm.evolve()
-        a = q.first
-        bestAI = q.second
+        geneticAlgorithm.evolve()
+        a = geneticAlgorithm.p.map { it.memoList[0] as Double }.toDoubleArray()
+        bestAI = geneticAlgorithm.p[a.sortedDescending().withIndex().maxBy { it.value }.index]
 
         println("Generation $generation complete")
         println(bestAI.forward(doubleArrayOf(1.0), false)[0])

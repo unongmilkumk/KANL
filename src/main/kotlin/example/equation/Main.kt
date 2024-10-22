@@ -3,6 +3,7 @@ package example.equation
 import kotlinAILibrary.GeneticAlgorithm
 import kotlinAILibrary.NeuralNetwork
 import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -13,6 +14,7 @@ fun main() {
         {a, _ ->
             a.memoList.add(Triple(0.0, 0.0, Double.MIN_VALUE))
             a.memoList.add(Triple(1.0, 1.0, Double.MAX_VALUE))
+            a.memoList.add(0.0)
             for (i1 in 10 until 20) {
                 for (j1 in 0 until 10) {
                     val i = i1.toDouble()
@@ -25,10 +27,13 @@ fun main() {
                     p1 += -800 * abs(a.forward(doubleArrayOf(i, j), false)[0] - b) + 100
                     p1 += -800 * abs(a.forward(doubleArrayOf(i, j), false)[1] - c) + 100
                     if ((a.memoList[0] as Triple<Double, Double, Double>).third <= p1) a.memoList[0] = Triple(i, j, p1)
-                    if ((a.memoList[1] as Triple<Double, Double, Double>).third >= p1) a.memoList[1] = Triple(i, j, p1)
+                    if ((a.memoList[1] as Triple<Double, Double, Double>).third >= p1) {
+                        a.memoList[1] = Triple(i, j, p1)
+                        a.memoList[2] = min(-800 * abs(a.forward(doubleArrayOf(i, j), false)[1] - c) + 100, -800 * abs(a.forward(doubleArrayOf(i, j), false)[0] - b) + 100)
+                    }
                 }
             }
-            (a.memoList[1] as Triple<Double, Double, Double>).third / 2
+            a.memoList[2].toString().toDouble()
         },
         {a, b -> a.sortedByDescending { b[a.indexOf(it)] }.take(a.size / 2)},
         {(parent1, parent2) ->
@@ -76,11 +81,10 @@ fun main() {
         })
     var a = doubleArrayOf()
     val bestAIs = arrayListOf<NeuralNetwork>()
-    var q: Pair<DoubleArray, NeuralNetwork>
     repeat(2000) { generation ->
-        q = geneticAlgorithm.evolve()
-        a = q.first
-        bestAIs.add(q.second)
+        geneticAlgorithm.evolve()
+        a = geneticAlgorithm.p.map { (it.memoList[0] as Triple<Double, Double, Double>).third }.toDoubleArray()
+        bestAIs.add(geneticAlgorithm.p.maxByOrNull { (it.memoList[1] as Triple<Double, Double, Double>).third / 2 }!!)
         val bestAI = bestAIs.last()
 
         val i = (bestAI.memoList[0] as Triple<Double, Double, Double>).first
@@ -90,7 +94,7 @@ fun main() {
         val c =  (-sqrt(p) - i) / 2
 
         println("Generation $generation complete")
-        println("Score : ${a[geneticAlgorithm.p.indexOf(bestAI)]}")
+        println("Score : ${a[geneticAlgorithm.p.indexOf(bestAI)]} ${- ((a[geneticAlgorithm.p.indexOf(bestAI)] - 100.0) / 800.0)}")
         println("Best-Think : ${bestAI.forward(doubleArrayOf(i, j), false).joinToString(" ")}")
         println("Answer : $b $c")
     }

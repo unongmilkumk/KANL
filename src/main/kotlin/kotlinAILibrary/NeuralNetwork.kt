@@ -4,7 +4,7 @@ import kotlin.math.exp
 import kotlin.math.max
 import kotlin.random.Random
 
-class NeuralNetwork(input : Int, val hidden : Int, val output : Int, inputRange: IntRange = (0..1), outputRange: IntRange = (0..1), biasRange: IntRange = (0..1)) {
+class NeuralNetwork(val input : Int, val hidden : Int, val output : Int, inputRange: IntRange = (0..1), outputRange: IntRange = (0..1), biasRange: IntRange = (0..1)) {
     var wih = arrayOf(doubleArrayOf())
     var who = arrayOf(doubleArrayOf())
     var bih = doubleArrayOf()
