@@ -33,7 +33,7 @@ fun main() {
             lineSuccess = hashSetOf()
             manager.board.forEach { (t, u) ->
                 if (t.second <= 5 && u.getInt() != 8) breakit = true
-                if (t.second >= 16 + lineClear && u.getInt() != 8) lineSuccess.add(t.first + (t.second * 10))
+                if (t.second >= 19 && lineClear < 4&& u.getInt() != 8) lineSuccess.add(t.first + (t.second * 10))
                 doubleArray[t.second * 10 + t.first] = u.getInt().toDouble()
             }
 
