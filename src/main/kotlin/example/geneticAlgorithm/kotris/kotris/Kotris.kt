@@ -1,7 +1,7 @@
-package example.kotris.kotris
+package example.geneticAlgorithm.kotris.kotris
 
-import example.kotris.a_library.swp.SwpCanvas
-import example.kotris.a_library.swp.SwpWindow
+import example.geneticAlgorithm.kotris.a_library.swp.SwpCanvas
+import example.geneticAlgorithm.kotris.a_library.swp.SwpWindow
 import kotlinAILibrary.GeneticAlgorithm
 import kotlinAILibrary.NeuralNetwork
 import java.awt.Color
@@ -33,7 +33,7 @@ fun main() {
             lineSuccess = hashSetOf()
             manager.board.forEach { (t, u) ->
                 if (t.second <= 5 && u.getInt() != 8) breakit = true
-                if (t.second >= 19 && lineClear < 4&& u.getInt() != 8) lineSuccess.add(t.first + (t.second * 10))
+                if (t.second >= 18 && lineClear < 4 && u.getInt() != 8) lineSuccess.add(t.first + (t.second * 10))
                 doubleArray[t.second * 10 + t.first] = u.getInt().toDouble()
             }
 

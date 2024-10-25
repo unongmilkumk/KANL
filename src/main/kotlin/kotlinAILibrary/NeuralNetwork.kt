@@ -26,6 +26,14 @@ class NeuralNetwork(val input : Int, val hidden : Int, val output : Int, inputRa
         bho = d
     }
 
+    fun memo(desc : Any, slot : Int) : Any {
+        while ((memoList.size - 1) < slot) {
+            memoList.add("")
+        }
+        memoList[slot] = desc
+        return desc
+    }
+
     fun forward(input : DoubleArray, doSoftMax : Boolean = true): DoubleArray {
         var result = DoubleArray(hidden) {0.0}
 

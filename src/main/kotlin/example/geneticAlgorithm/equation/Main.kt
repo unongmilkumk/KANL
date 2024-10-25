@@ -1,4 +1,4 @@
-package example.equation
+package example.geneticAlgorithm.equation
 
 import kotlinAILibrary.GeneticAlgorithm
 import kotlinAILibrary.NeuralNetwork

@@ -1,4 +1,4 @@
-package example.kotris.kotris
+package example.geneticAlgorithm.kotris.kotris
 
 import java.awt.Color
 import java.awt.Graphics

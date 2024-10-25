@@ -1,4 +1,4 @@
-package example.kotris.a_library.swp
+package example.geneticAlgorithm.kotris.a_library.swp
 
 import java.awt.Color
 import java.awt.Graphics
