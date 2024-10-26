@@ -6,10 +6,9 @@ import kotlin.math.abs
 
 fun main() {
     val mutationRate = 0.3
-    val geneticAlgorithm = GeneticAlgorithm(List(300) { NeuralNetwork(1, 2, 1) },
+    val geneticAlgorithm = GeneticAlgorithm(List(300) { NeuralNetwork(1, listOf(2, 3), 1) },
         {a, _ ->
-            a.memoList[0] = -800 * abs(a.forward(doubleArrayOf(1.0), false)[0] - 0.5) + 100
-            -800 * abs(a.forward(doubleArrayOf(1.0), false)[0] - 0.5) + 100
+            a.memo(-800 * abs(a.forward(doubleArrayOf(1.0), false)[0] - 0.5) + 100, 0).toString().toDouble()
         },
         {a, b -> a.sortedByDescending { b[a.indexOf(it)] }.take(a.size / 2)}, null, mutationRate)
     var a = doubleArrayOf()

@@ -15,7 +15,7 @@ fun main() {
 
     canvas.paint {  }
     val mutationRate = 2
-    val geneticAlgorithm = GeneticAlgorithm(List(3000) { NeuralNetwork(210, 109, 8) }, {a, _ ->
+    val geneticAlgorithm = GeneticAlgorithm(List(3000) { NeuralNetwork(210, listOf(109), 8) }, {a, _ ->
         lineClear = 0
         lineSuccess = hashSetOf()
         val start = System.currentTimeMillis()
